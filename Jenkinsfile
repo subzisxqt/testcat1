@@ -20,5 +20,11 @@ pipeline {
       }
     }
 
+    stage('destroy1') {
+      steps {
+        sh 'terraform destroy'
+      }
+    }
+
   }
 }
