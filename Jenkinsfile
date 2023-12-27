@@ -2,9 +2,20 @@ pipeline {
   agent any
   stages {
     stage('stage1') {
-      steps {
-        sh '''terraform init
+      parallel {
+        stage('stage1') {
+          steps {
+            sh '''terraform init
 '''
+          }
+        }
+
+        stage('') {
+          steps {
+            awsIdentity()
+          }
+        }
+
       }
     }
 
