@@ -8,5 +8,11 @@ pipeline {
       }
     }
 
+    stage('stage2') {
+      steps {
+        sh 'terraform apply'
+      }
+    }
+
   }
 }
