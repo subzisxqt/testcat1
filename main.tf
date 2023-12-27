@@ -7,6 +7,19 @@ resource "aws_subnet" "fancysubnet" {
     availability_zone = "eu-west-1a"
 }
 
+resource "aws_internet_gateway" "gw" {
+ vpc_id = aws_vpc.cat1.id
+}
+
+resource "aws_route_table" "rt" {
+ vpc_id = aws_vpc.cat1.id
+
+ route {
+   cidr_block = "0.0.0.0/0"
+   gateway_id = aws_internet_gateway.gw.id
+ }
+}
+
 resource "aws_security_group" "securegroup1" {
   name = "securesecuregroup"
   vpc_id = aws_vpc.cat1.id
