@@ -14,7 +14,7 @@ pipeline {
       }
     }
 
-    stage('') {
+    stage('confirm') {
       steps {
         input 'Confirm haha'
       }
