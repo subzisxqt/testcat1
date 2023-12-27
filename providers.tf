@@ -4,11 +4,21 @@ terraform {
             source = "hashicorp/aws"
             version = "~> 5.0"
         }
+        docker = {
+        	source = "kreuzwerker/docker"
+        	version = "~> 3.0.1"
+        }
     }
 }
 
 provider "aws" {
     region = "eu-west-1"
-    access_key = "AKIATCWAUXA37EWGL2ER"
-    secret_key = "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"
+  
 }
+
+# provider "docker" {
+#     host = "ssh://ec2-user@${aws_instance.serverofcat.public_ip}"
+#     ssh_opts = ["-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostFile=/dev/null"]
+# }
+
+

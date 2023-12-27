@@ -14,6 +14,7 @@ resource "aws_security_group" "securegroup1" {
     from_port = 22
     to_port = 22
     protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
 
   }
   egress {
@@ -29,4 +30,37 @@ resource "aws_instance" "serverofcat" {
   instance_type = "t2.micro"
   subnet_id = aws_subnet.fancysubnet.id
   security_groups = [aws_security_group.securegroup1.id]
+  user_data = <<-EOF
+    #!/bin/bash
+    sudo dnf update
+    sudo dnf install -y docker
+    sudo systemctl enable --now docker
+    
+    # mkdir downloads
+    # curl -LO www.website.lt/javaapp.java downloads/
+    # docker run nginx -p 80:80 -v ./downloads:/srv
+  EOF
+  associate_public_ip_address = true
+  key_name = aws_key_pair.keys1.key_name
+
 }
+resource "aws_key_pair" "keys1" {
+  key_name="keys1"
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBNiAR99NcnW5opAFp2tYmsUkH3yDWUpn3ujoE8T1Zat catco@catco"
+}
+
+# resource "docker_image" "nginx" {
+#   name = "nginx"
+# }
+
+# resource "docker_container" "nginx" {
+#   name = "cat1"
+# 	image = docker_image.nginx.image_id
+# 	ports {
+# 		internal = 80
+# 		external = 8000
+# 	}
+# }
+
+
+
