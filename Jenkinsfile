@@ -20,7 +20,7 @@ pipeline {
       }
     }
 
-    stage('confirm') {
+    stage('confirm1') {
       steps {
         input 'Confirm haha'
       }
@@ -39,7 +39,7 @@ pipeline {
       }
     }
 
-    stage('confirm') {
+    stage('confirm2') {
       steps {
         input 'Confirm haha'
       }
