@@ -3,20 +3,20 @@ pipeline {
   stages {
     stage('stage1') {
       steps {
+        sh 'terraform init'
+      }
+    }
+
+    stage('stage2') {
+      steps {
         withCredentials([[
           $class: 'AmazonWebServicesCredentialsBinding',
           credentialsId: "1",
           accessKeyVariable: 'AWS_ACCESS_KEY_ID',
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
-          sh 'terraform init'
+          sh 'terraform apply'
         }
-      }
-    }
-
-    stage('stage2') {
-      steps {
-        sh 'terraform apply'
       }
     }
 
@@ -28,7 +28,14 @@ pipeline {
 
     stage('destroy1') {
       steps {
-        sh 'terraform destroy'
+        withCredentials([[
+          $class: 'AmazonWebServicesCredentialsBinding',
+          credentialsId: "1",
+          accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+          secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+        ]]) {
+          sh 'terraform destroy'
+        }
       }
     }
 
